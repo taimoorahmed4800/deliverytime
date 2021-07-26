@@ -1,0 +1,119 @@
+<script>
+    require([
+        'jquery',
+        'jquery/jquery.cookie'
+    ], function(
+        $
+    )
+    {
+        $(document).ready(function(){
+            <?php if($block->IsEnabled())  { ?>
+            var loop = true;
+            setInterval(function() {
+                if(loop) {
+                    if($('.delivery-date').length) {
+                        loop = false;
+                        var exclude = ["16-11-2015", "17-11-2015", "18-11-2015", "19-11-2015", "20-11-2015", "19-07-2021"];
+                        var dates = "<?php echo $block->getDateOff(); ?>";
+                        dates = dates.split(",");
+                        var DaysOff = "<?php echo $block->getDaysOff(); ?>";
+                        var DaysOff = DaysOff.split(',');
+                        var i;
+                        for (i = 0; i < DaysOff.length; ++i) {
+                            DaysOff[i] = parseInt(DaysOff[i]);
+                        }
+                        $('.delivery-date').datepicker({
+                                prevText: '&#x3c;zurück', prevStatus: '',
+                                prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+                                nextText: 'Vor&#x3e;', nextStatus: '',
+                                nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+                                monthNames: ['january','February','March','April','May','June',
+                                    'July','August','September','October','November','December'],
+                                monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun',
+                                    'Jul','Aug','Sep','Oct','Nov','Dec'],
+                                dayNames: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                                beforeShowDay: function(date) {
+                                    var day = jQuery.datepicker.formatDate('dd-mm-yy', date);
+                                    return [!~$.inArray(day, dates) && !~$.inArray(date.getDay(), DaysOff)];
+                                },
+                                dayNamesShort: ['Su','Mo','Tu','We','Th','Fr','Sa'],
+                                dayNamesMin: ['Su','Mo','Tu','We','Th','Fr','Sa'],
+                                showMonthAfterYear: false,
+                                dateFormat:'<?php echo $block->getDateFormat(); ?>'
+                            }
+                        );
+                        $(".continue").on('click', function() {
+                            var date = $("#deliverydate").val();
+                            var housecode = 0;
+                            var comment = 0;
+                            var time = 0;
+                            if(<?php echo $block->IsHouseCodeEnable() ?>) {
+                                var housecode = $('#rlt-house-security-code').val();
+                            }
+                            if(<?php echo $block->IsDeliveryCommentEnable() ?>) {
+                                var comment = $('#rlt-delivery-comment').val();
+                            }
+                            if(<?php echo $block->getDeliveryTimeEnable() ?>) {
+                                var time = $('#delivery-time').val();
+                            }
+                            $.ajax({
+                                method: "POST",
+                                showLoader: false,
+                                url: "<?php echo $this->getUrl('deliverytime/index/saveInQuote'); ?>",
+                                data: {
+                                    date:date,
+                                    housecode:housecode,
+                                    comment:comment,
+                                    time:time
+                                },
+                                success: function (productdata) {
+                                },
+                                error: function (error) {
+                                }
+                            });
+                        });
+                        $(".delivery-date").css("width","30%");
+                        $(".delivery-date").css("margin-bottom","20px");
+                        if(<?php echo $block->IsHouseCodeEnable() ?>) {
+                            $(".house-security-code").css("width","90%");
+                            $(".house-security-code").css("margin-bottom","20px");
+                        } else {
+                            $(".house-security-code").hide();
+                        }
+                        if(<?php echo $block->IsDeliveryCommentEnable() ?>) {
+                            $(".delivery-comment").css("width","90%");
+                            $(".delivery-comment").css("margin-bottom","20px");
+                        } else {
+                            $(".delivery-comment").hide();
+                        }
+                        if(<?php echo $block->getDeliveryTimeEnable() ?>) {
+                            $(".delivery-time").css("width","90%");
+                            $(".delivery-time").css("margin-bottom","20px");
+                            <?php
+                            foreach ($block->getDeliveryTimeFields() as $key => $value) {
+                            ?>
+                            $("#delivery-time").append('<option value="<?php echo $value ?>"><?php echo $value ?></option>');
+                            <?php } ?>
+                        } else {
+                            $(".delivery-time").hide();
+                        }
+                    }
+                }
+            }, 500);
+            <?php } else { ?>
+            var loop = true;
+            setInterval(function() {
+                if(loop) {
+                    if($('.delivery-date').length) {
+                        loop = false;
+                        $(".house-security-code").hide();
+                        $(".delivery-time").hide();
+                        $(".delivery-comment").hide();
+                        $(".deliverydate").hide();
+                    }
+                }
+            });
+          <?php  } ?>
+        });
+    });
+</script>

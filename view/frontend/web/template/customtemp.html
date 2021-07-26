@@ -1,0 +1,35 @@
+<div >
+    <div class="deliverydate">
+        <label class="label" for="deliverydate">
+            <span data-bind="i18n: 'Delivery Date'"></span>
+        </label>
+        <div class="control">
+            <input class="delivery-date" id="deliverydate" name="deliverydate" type="text" readonly/>
+            <button type="button" id='calander-icon' class="ui-datepicker-trigger"></button>
+        </div>
+    </div>
+    <div class="delivery-time">
+        <label for="delivery-time">Delivery Time</label>
+        <select name="delivery-time" id="delivery-time">
+            <option value="">-- Please select a delivery time--</option>
+        </select>
+    </div>
+    <div class="house-security-code">
+        <div class="title">
+            <span data-bind="i18n: 'House Security Code'">House Security Code</span>
+        </div>
+        <div class="control">
+            <input type="text" id="rlt-house-security-code">
+        </div>
+    </div>
+    <div class="delivery-comment">
+        <div class="title">
+            <span data-bind="i18n: 'Delivery Comment'">Delivery Comment</span>
+        </div>
+        <div class="control">
+            <div class="input-box">
+                <textarea name="delivery-comment" id="rlt-delivery-comment" rows="2"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

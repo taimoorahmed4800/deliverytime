@@ -1,0 +1,79 @@
+<?php
+/**
+ *
+ * @category : RLTSquare
+ * @Package  : RLTSquare_DeliveryTime
+ * @Author   : RLTSquare <support@rltsquare.com>
+ * @copyright Copyright 2021 © rltsquare.com All right reserved
+ * @license https://rltsquare.com/
+ */
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+<?php $_order = $block->getOrder() ?>
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Order Information')) ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if (!$_order->getIsVirtual()) : ?>
+            <div class="box box-order-shipping-address">
+                <strong class="box-title"><span><?= $block->escapeHtml(__('Shipping Address')) ?></span></strong>
+                <div class="box-content">
+                    <address><?= /* @noEscape */ $block->getFormattedAddress($_order->getShippingAddress()) ?></address>
+                </div>
+            </div>
+            <div class="box box-order-shipping-method">
+                <strong class="box-title">
+                    <span><?= $block->escapeHtml(__('Shipping Method')) ?></span>
+                </strong>
+                <div class="box-content">
+                    <?php if ($_order->getShippingDescription()) : ?>
+                        <?= $block->escapeHtml($_order->getShippingDescription()) ?>
+                    <?php else : ?>
+                        <?= $block->escapeHtml(__('No shipping information available')) ?>
+                    <?php endif; ?>
+                </div>
+                <div class="box-content delivery-information">
+                    <?php
+                    $DeliveryDate = $block->getDeliveryDate();
+                    if($DeliveryDate) { ?>
+                        <strong>Delivery On:</strong>
+                        <br><span><?php echo $DeliveryDate;  ?></span>
+                    <?php }
+                    $housecode = $block->getHouseCode();
+                    if($housecode) { ?>
+                        <br><strong>House Code :</strong>
+                        <br><span><?php echo $housecode;  ?></span>
+                    <?php }
+                    $DeliveryComment = $block->getDeliveryComment();
+                    if($DeliveryComment) { ?>
+                        <br><strong>Delivery Comment:</strong>
+                        <br><span><?php echo $DeliveryComment;  ?></span>
+                    <?php }
+                    $DeliveryTime = $block->getDeliveryTime();
+                    if($DeliveryTime) { ?>
+                        <br><strong>Delivery Time:</strong>
+                        <br><span><?php echo $DeliveryTime;  ?></span>
+                    <?php }
+                    ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span><?= $block->escapeHtml(__('Billing Address')) ?></span>
+            </strong>
+            <div class="box-content">
+                <address><?= /* @noEscape */ $block->getFormattedAddress($_order->getBillingAddress()) ?></address>
+            </div>
+        </div>
+        <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span><?= $block->escapeHtml(__('Payment Method')) ?></span>
+            </strong>
+            <div class="box-content">
+                <?= $block->getPaymentInfoHtml() ?>
+            </div>
+        </div>
+    </div>
+</div>

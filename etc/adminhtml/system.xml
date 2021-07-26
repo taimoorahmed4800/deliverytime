@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+*
+* @category : RLTSquare
+* @Package  : RLTSquare_DeliveryTime
+* @Author   : RLTSquare <support@rltsquare.com>
+* @copyright Copyright 2021 © rltsquare.com All right reserved
+* @license https://rltsquare.com/
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="rltsquare" translate="label" sortOrder="1000">
+            <label>RLT Square</label>
+        </tab>
+        <section id="deliverytime" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Delivery Time</label>
+            <tab>rltsquare</tab>
+            <resource>RLTSquare_DeliveryTime::system_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to enable the module.</comment>
+                </field>
+                <field id="home_security_code" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable House Security Code</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to allow customers to fill their house security codes.</comment>
+                </field>
+                <field id="delivery_comment" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Delivery Comment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to allow customers to commend on their orders.</comment>
+                </field>
+                <field id="date_format" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Date Format</label>
+                    <source_model>RLTSquare\DeliveryTime\Model\Config\Source\DateFormat</source_model>
+                    <comment>Select the date format used for delivery date.</comment>
+                </field>
+                <field id="day_off" translate="label" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Day Off</label>
+                    <source_model>RLTSquare\DeliveryTime\Model\Config\Source\DayOff</source_model>
+                    <comment>Allows admins to choose the day off in week. Customers can not select the days off for delivery.</comment>
+                </field>
+                <field id="date_off" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Date Off</label>
+                    <backend_model>RLTSquare\DeliveryTime\Block\Adminhtml\Config\Backend\ArraySerialized</backend_model>
+                    <frontend_model>RLTSquare\DeliveryTime\Block\Adminhtml\DateOff</frontend_model>
+                    <comment>
+                        <![CDATA[Allows admins to choose any date off that they want. Customers can not select the days off for delivery.]]>
+                    </comment>
+                </field>
+            </group>
+            <group id="cancel_order_conditions" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Delivery Time</label>
+                <field id="delivery_time" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Delivery Time</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to allow customers to choose estimated delivery time.</comment>
+                </field>
+                
+                <field id="conditions_payment_methods" translate="label comment tooltip" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Delivery Time</label>
+                    <!-- <depends>
+                        <field id="deliverytime/cancel_order_conditions/delivery_time">1</field>
+                    </depends> -->
+                    <frontend_model>RLTSquare\DeliveryTime\Block\Adminhtml\System\Config\Formfieldmap</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>
+                        <![CDATA[Allows admins to choose the time frame for delivery.]]>
+                    </comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
