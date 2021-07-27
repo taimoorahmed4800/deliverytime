@@ -22,15 +22,20 @@ class PlaceOrder implements ObserverInterface
      * @var \Magento\Customer\Model\Session
      */
     protected $quoteFactory;
-
+    /**
+     * @var \RLTSquare\DeliveryTime\Logger\Logger
+     */
+    protected $_logger;
     /**
      * PlaceOrder constructor.
      * @param QuoteFactory $quoteFactory
      */
     public function __construct(
+        \RLTSquare\DeliveryTime\Logger\Logger $logger,
         QuoteFactory $quoteFactory
     ) {
         $this->quoteFactory = $quoteFactory;
+        $this->_logger = $logger;
     }
 
     /**
@@ -40,19 +45,23 @@ class PlaceOrder implements ObserverInterface
         Observer $observer
     )
     {
-        $order = $observer->getOrder();
-        $quoteId = $order->getQuoteId();
-        $quote  = $this->quoteFactory->create()->load($quoteId);
-        $order->setDeliveryDate($quote->getDeliveryDate());
-        if($quote->getHouseCode()) {
-            $order->setHouseCode($quote->getHouseCode());
+        try {
+            $order = $observer->getOrder();
+            $quoteId = $order->getQuoteId();
+            $quote  = $this->quoteFactory->create()->load($quoteId);
+            $order->setDeliveryDate($quote->getDeliveryDate());
+            if($quote->getHouseCode()) {
+                $order->setHouseCode($quote->getHouseCode());
+            }
+            if($quote->getDeliveryComment()) {
+                $order->setDeliveryComment($quote->getDeliveryComment());
+            }
+            if($quote->getDeliveryTime()) {
+                $order->setDeliveryTime($quote->getDeliveryTime());
+            }
+            $order->save();
+        } catch (\Exception $e) {
+            $this->_logger->info($e->getMessage());
         }
-        if($quote->getDeliveryComment()) {
-            $order->setDeliveryComment($quote->getDeliveryComment());
-        }
-        if($quote->getDeliveryTime()) {
-            $order->setDeliveryTime($quote->getDeliveryTime());
-        }
-        $order->save();
     }
 }

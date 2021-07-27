@@ -95,7 +95,6 @@ class Info extends \Magento\Framework\View\Element\Template
     {
         return $this->addressRenderer->format($address, 'html');
     }
-
     /**
      * @return mixed
      */

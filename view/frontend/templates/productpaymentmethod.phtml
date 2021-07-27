@@ -72,8 +72,13 @@
                                 }
                             });
                         });
-                        $(".delivery-date").css("width","30%");
+                        $(".delivery-date").css("width","40%");
                         $(".delivery-date").css("margin-bottom","20px");
+                        $("#calander-icon").on('click', function() {
+                         $("#ui-datepicker-div").css("display","block");
+
+                        });
+
                         if(<?php echo $block->IsHouseCodeEnable() ?>) {
                             $(".house-security-code").css("width","90%");
                             $(".house-security-code").css("margin-bottom","20px");
@@ -87,8 +92,13 @@
                             $(".delivery-comment").hide();
                         }
                         if(<?php echo $block->getDeliveryTimeEnable() ?>) {
-                            $(".delivery-time").css("width","90%");
+                            $(".delivery-time").css("width","43%");
                             $(".delivery-time").css("margin-bottom","20px");
+                            $(".delivery-time").css("position","absolute");
+                            $(".delivery-time").css("margin-top","-69px");
+                            $(".delivery-time").css("margin-left","47%");
+
+
                             <?php
                             foreach ($block->getDeliveryTimeFields() as $key => $value) {
                             ?>
